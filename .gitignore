@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pyc
+
+# Virtual env
+venv/
+.env/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Database
+*.sqlite3
+*.db
+
+# Docker volumes (не обязательно, но ок)
+postgres_data/
+
+# FastAPI / uvicorn
+*.pid
+
+# Env file (КРИТИЧЕСКИ ВАЖНО)
+.env
