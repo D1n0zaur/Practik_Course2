@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ЭКО — Расчёт параметров стен</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Твой пустой CSS (пока не нужен) -->
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+    <!-- ШАПКА -->
+    <header class="bg-dark text-white text-center py-4">
+        <div class="container">
+            <h1>🧱 ЭКО: Экология Конструкций Ограждения</h1>
+            <p class="lead">Расчёт теплотехнических и экологических параметров наружных стен</p>
+        </div>
+    </header>
+
+    <!-- ОСНОВНОЙ КОНТЕНТ -->
+    <main class="container my-4">
+
+        <!-- БЛОК ВВОДА -->
+        <section class="card shadow-sm p-4 mb-4">
+            <h3>📝 Исходные данные</h3>
+
+            <!-- Три поля -->
+            <div class="row g-3 mb-4">
+                <div class="col-md-4">
+                    <label for="gsopInput" class="form-label fw-bold">ГСОП (градусо-сутки)</label>
+                    <input type="number" class="form-control" id="gsopInput" value="4378" step="1" />
+                    <small class="text-muted">Например, для Брянска = 4378</small>
+                </div>
+                <div class="col-md-4">
+                    <label for="areaInput" class="form-label fw-bold">Площадь стен S (м²)</label>
+                    <input type="number" class="form-control" id="areaInput" value="620" step="0.1" />
+                </div>
+                <div class="col-md-4">
+                    <label for="armatureInput" class="form-label fw-bold">Масса арматуры (кг/м²)</label>
+                    <input type="number" class="form-control" id="armatureInput" value="1.5" step="0.1" />
+                </div>
+            </div>
+
+            <!-- Таблица слоёв -->
+            <div class="mb-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="fw-bold">📋 Слои стены (порядок важен!)</h5>
+                    <button id="addLayerBtn" class="btn btn-success btn-sm">➕ Добавить слой</button>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover mt-2" id="layersTable">
+                        <thead class="table-light">
+                            <tr>
+                                <th style="width: 10%;">№</th>
+                                <th style="width: 60%;">Материал</th>
+                                <th style="width: 20%;">Толщина, м</th>
+                                <th style="width: 10%;">Действие</th>
+                            </tr>
+                        </thead>
+                        <tbody id="layersBody">
+                            <!-- Сюда будут добавляться строки -->
+                            <tr>
+                                <td colspan="4" class="text-center text-muted py-3">
+                                    Нажмите «Добавить слой», чтобы начать
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Кнопка РАССЧИТАТЬ -->
+            <div class="text-center mt-3">
+                <button id="calculateBtn" class="btn btn-primary btn-lg px-5">🚀 Рассчитать</button>
+            </div>
+        </section>
+
+        <!-- БЛОК РЕЗУЛЬТАТОВ (скрыт) -->
+        <section id="resultsSection" class="card shadow-sm p-4" style="display: none;">
+            <h3>📊 Результаты расчёта</h3>
+
+            <h5>🔍 Детализация по слоям (на 1 м² стены)</h5>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped" id="resultTable">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>№</th>
+                            <th>Материал</th>
+                            <th>Масса, кг</th>
+                            <th>CO₂, кг экв</th>
+                            <th>Энергия, МДж</th>
+                        </tr>
+                    </thead>
+                    <tbody id="resultBody"></tbody>
+                    <tfoot class="table-warning fw-bold">
+                        <tr>
+                            <td colspan="2">ИТОГО:</td>
+                            <td id="footerMass">-</td>
+                            <td id="footerCo2">-</td>
+                            <td id="footerEnergy">-</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+            <hr />
+
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <div class="card border-primary">
+                        <div class="card-body">
+                            <h5 class="card-title text-primary">🔥 Теплотехнические показатели</h5>
+                            <p>Сопротивление R₀: <strong id="resultR0">-</strong> м²·°С/Вт</p>
+                            <p>Потери через 1 м²: <strong id="resultQPerM2">-</strong> кВт·ч/год</p>
+                            <p>Потери общие: <strong id="resultQTotal">-</strong> кВт·ч/год</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card border-success">
+                        <div class="card-body">
+                            <h5 class="card-title text-success">⛽ Расход газа</h5>
+                            <p>На 1 м²: <strong id="resultVPerM2">-</strong> м³/год</p>
+                            <p>Общий: <strong id="resultVTotal">-</strong> м³/год</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <p class="text-muted mt-3 small">Версия расчёта: <span id="calcVersion">-</span></p>
+        </section>
+
+    </main>
+
+    <!-- ПОДВАЛ -->
+    <footer class="text-center text-muted py-3 border-top">
+        <small>Учебный проект. Расчёты по методике «Программа Строительство».</small>
+    </footer>
+
+    <!-- Bootstrap JS (для некоторых эффектов) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Твой скрипт (пока пустой) -->
+    <script src="script.js"></script>
+</body>
+</html>
