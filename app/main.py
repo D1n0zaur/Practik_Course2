@@ -1,13 +1,16 @@
-from fastapi import FastAPI, Depends, HTTPException, Query
+from fastapi import FastAPI, Depends, HTTPException, Query, Request
+from fastapi.staticfiles import StaticFiles
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from typing import List, Optional
+from fastapi.templating import Jinja2Templates
 
 from app.db import Base, engine, get_db
 from app.models import Material
 from app.schemas import MaterialOut, WallCalculationRequest, WallCalculationResponse
 from app.services.wall_calculator import calculate_wall
 
-# Создаём таблицы (позже заменим на Alembic)
+# Создаём таблицы
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
@@ -16,13 +19,29 @@ app = FastAPI(
     description="Расчёт теплотехнических и экологических параметров стен"
 )
 
+# CORS (если нужно)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
+# Подключаем статику (CSS, JS)
+app.mount("/static", StaticFiles(directory="app/static"), name="static")
+
+# Настраиваем Jinja2
+templates = Jinja2Templates(directory="app/templates")
+
+
+# === Главная страница ===
 @app.get("/")
-def root():
-    return {"status": "ok"}
+def index(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
 
 
-# === Материалы ===
+# === API эндпоинты ===
 @app.get("/api/v1/materials", response_model=List[MaterialOut])
 def get_materials(
     db: Session = Depends(get_db),
@@ -42,7 +61,6 @@ def get_material(material_id: int, db: Session = Depends(get_db)):
     return material
 
 
-# === Расчёт стены ===
 @app.post("/api/v1/walls/calculate", response_model=WallCalculationResponse)
 def calculate_wall_endpoint(
     request: WallCalculationRequest,
