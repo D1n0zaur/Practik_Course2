@@ -1,0 +1,327 @@
+/* ============================
+   Базовые стили
+   ============================ */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: #f4f6f8;
+    color: #1e2a3a;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 1140px;
+}
+
+/* ============================
+   Хедер – тёмный, контрастный
+   ============================ */
+.site-header {
+    background-color: #1e2a3a !important; /* тёмный фон */
+    padding: 1rem 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    border-bottom: 2px solid #2c3e50;
+}
+
+/* Логотип – белый, без признаков ссылки */
+.logo-link {
+    text-decoration: none !important;
+    color: #ffffff !important;
+    display: inline-block;
+}
+
+.logo-link:hover,
+.logo-link:focus,
+.logo-link:active {
+    text-decoration: none !important;
+    color: #ffffff !important;
+    opacity: 0.85;
+}
+
+.site-title {
+    font-weight: 500;
+    font-size: 1.6rem;
+    letter-spacing: 0.5px;
+    margin: 0;
+}
+
+.site-subtitle {
+    font-weight: 300;
+    font-size: 0.9rem;
+    color: #9aabb8;
+    margin-left: 0.5rem;
+}
+
+/* Навигация */
+.nav-header {
+    gap: 1.5rem;
+}
+
+.nav-header .nav-link {
+    color: #b0c4d4 !important;
+    font-weight: 400;
+    font-size: 0.95rem;
+    padding: 0.2rem 0;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.2s, color 0.2s;
+}
+
+.nav-header .nav-link:hover {
+    color: #ffffff !important;
+}
+
+.nav-header .nav-link.active {
+    color: #ffffff !important;
+    border-bottom-color: #5a7a9a;
+}
+
+/* ============================
+   Карточки-секции (светлые)
+   ============================ */
+.card-section {
+    background-color: #ffffff;
+    border: 1px solid #e0e5ea;
+    border-radius: 6px;
+    padding: 2rem 2rem 2.5rem;
+    margin-bottom: 2.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.section-title {
+    font-weight: 500;
+    font-size: 1.3rem;
+    color: #1e2a3a;
+    letter-spacing: 0.3px;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #e9ecef;
+    margin-bottom: 1.5rem;
+}
+
+/* ============================
+   Формы
+   ============================ */
+.form-label {
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: #2c3e50;
+    margin-bottom: 0.2rem;
+}
+
+.form-control {
+    background-color: #f8f9fa;
+    border: 1px solid #d1d9e0;
+    border-radius: 4px;
+    color: #1e2a3a;
+    padding: 0.6rem 0.9rem;
+    font-size: 1rem;
+    transition: border-color 0.15s;
+}
+.form-control:focus {
+    border-color: #5a7a9a;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(90,122,154,0.1);
+}
+.form-control-lg {
+    font-size: 1.1rem;
+    padding: 0.7rem 1rem;
+}
+.form-hint {
+    font-size: 0.8rem;
+    color: #6c757d;
+    margin-top: 0.2rem;
+}
+
+/* ============================
+   Кнопки
+   ============================ */
+.btn {
+    border-radius: 4px;
+    font-weight: 500;
+    padding: 0.5rem 1.2rem;
+    transition: all 0.15s;
+}
+.btn-outline-secondary {
+    border-color: #d1d9e0;
+    color: #2c3e50;
+}
+.btn-outline-secondary:hover {
+    background-color: #e9ecef;
+    border-color: #b0bcc8;
+}
+.btn-primary {
+    background-color: #1e2a3a;
+    border-color: #1e2a3a;
+    color: #ffffff;
+}
+.btn-primary:hover {
+    background-color: #15202b;
+    border-color: #15202b;
+}
+.btn-outline-danger {
+    border-color: #d1d9e0;
+    color: #a94442;
+}
+.btn-outline-danger:hover {
+    background-color: #f8d7da;
+    border-color: #c9302c;
+}
+
+/* ============================
+   Поиск
+   ============================ */
+.search-block {
+    margin: 1.5rem 0 1rem;
+}
+.search-results {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 4px;
+}
+.search-results-title {
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: #2c3e50;
+    border-bottom: 1px solid #dee2e6;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+.search-table th {
+    font-weight: 500;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #495057;
+    background: #f1f3f5;
+    border-bottom: 1px solid #dee2e6;
+}
+.search-table td {
+    font-size: 0.9rem;
+    vertical-align: middle;
+}
+
+/* ============================
+   Таблицы слоёв и результатов
+   ============================ */
+.layers-table th,
+.results-table th {
+    font-weight: 500;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #495057;
+    background: #f8f9fa;
+    border-bottom: 2px solid #dee2e6;
+}
+.layers-table td,
+.results-table td {
+    vertical-align: middle;
+    padding: 0.6rem 0.4rem;
+    border-top: 1px solid #e9ecef;
+}
+.layers-table select,
+.layers-table input {
+    background: #ffffff;
+    border: 1px solid #d1d9e0;
+    color: #1e2a3a;
+}
+.layers-table select:focus,
+.layers-table input:focus {
+    border-color: #5a7a9a;
+}
+
+/* ============================
+   Метрики
+   ============================ */
+.metric-card {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 4px;
+    padding: 1.25rem 1.5rem;
+}
+.metric-title {
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: #2c3e50;
+    border-bottom: 1px solid #dee2e6;
+    padding-bottom: 0.4rem;
+    margin-bottom: 0.75rem;
+}
+.metric-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.metric-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.2rem 0;
+    font-size: 0.95rem;
+}
+.metric-label {
+    color: #495057;
+}
+.metric-value {
+    font-weight: 500;
+}
+
+/* ============================
+   Футер
+   ============================ */
+.site-footer {
+    background: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+    padding: 1.5rem 0;
+    text-align: center;
+    color: #6c757d;
+    font-size: 0.85rem;
+    margin-top: 2rem;
+}
+
+/* ============================
+   Адаптив
+   ============================ */
+@media (max-width: 768px) {
+    .card-section {
+        padding: 1.5rem 1rem;
+    }
+    .nav-header {
+        gap: 0.8rem;
+    }
+    .nav-header .nav-link {
+        font-size: 0.85rem;
+    }
+    .site-title {
+        font-size: 1.4rem;
+    }
+    .site-subtitle {
+        font-size: 0.75rem;
+        display: block;
+        margin-left: 0;
+    }
+}
+
+/* Специфика для таблицы материалов */
+.materials-table th {
+    font-weight: 500;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #495057;
+    background: #f8f9fa;
+    border-bottom: 2px solid #dee2e6;
+}
+.materials-table td {
+    padding: 0.5rem 0.4rem;
+    border-top: 1px solid #e9ecef;
+    vertical-align: middle;
+}
+.materials-table tbody tr:hover {
+    background-color: #f1f3f5;
+}

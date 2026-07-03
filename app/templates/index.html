@@ -1,90 +1,107 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ЭКО — расчёт параметров стен</title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="/static/style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ЭКО — Калькулятор</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
 </head>
+<body>
 
-<body class="bg-light">
-
-<!-- HEADER -->
-<header class="bg-dark text-white py-4 shadow-sm">
-    <div class="container text-center">
-        <h1 class="fw-bold">🧱 ЭКО</h1>
-        <p class="mb-0 text-secondary">
-            Экологический и теплотехнический расчёт ограждающих конструкций
-        </p>
-    </div>
-</header>
-
-<main class="container my-4">
-
-    <!-- INPUT CARD -->
-    <div class="card shadow-sm mb-4">
-        <div class="card-body">
-
-            <h4 class="mb-3">📌 Исходные данные</h4>
-            <p class="text-muted mb-4">
-                Заполните параметры здания для расчёта теплопотерь и экологического воздействия.
-            </p>
-
-            <div class="row g-3">
-
-                <div class="col-md-4">
-                    <label class="form-label fw-semibold">
-                        🌡 ГСОП (градусо-сутки отопительного периода)
-                    </label>
-                    <input id="gsopInput" type="number" class="form-control" value="4378">
-                    <div class="form-text">Например: Москва ≈ 4500</div>
+    <!-- Хедер -->
+    <header class="site-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col">
+                    <a href="/" class="logo-link">
+                        <span class="site-title">ЭКО</span>
+                    </a>
+                    <span class="site-subtitle">Расчёт ограждающих конструкций</span>
                 </div>
-
-                <div class="col-md-4">
-                    <label class="form-label fw-semibold">
-                        📐 Площадь стен (м²)
-                    </label>
-                    <input id="areaInput" type="number" class="form-control" value="620">
-                    <div class="form-text">Общая площадь наружных стен</div>
+                <div class="col-auto">
+                    <nav class="nav nav-header">
+                        <a href="/" class="nav-link active">Калькулятор</a>
+                        <a href="/materials" class="nav-link">Список материалов</a>
+                    </nav>
                 </div>
-
-                <div class="col-md-4">
-                    <label class="form-label fw-semibold">
-                        🏗 Арматура (кг/м²)
-                    </label>
-                    <input id="armatureInput" type="number" class="form-control" value="1.5">
-                    <div class="form-text">Удельная масса арматуры</div>
-                </div>
-
             </div>
         </div>
-    </div>
+    </header>
 
-    <!-- LAYERS CARD -->
-    <div class="card shadow-sm mb-4">
-        <div class="card-body">
+    <main class="container py-5">
 
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <div>
-                    <h4 class="mb-0">🧩 Конструкция стены</h4>
-                    <small class="text-muted">Добавьте слои в порядке от внутреннего к наружному</small>
+        <!-- Исходные данные -->
+        <section class="card-section">
+            <h2 class="section-title">Исходные данные</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <label for="gsopInput" class="form-label">ГСОП (градусо-сутки)</label>
+                    <input type="number" class="form-control form-control-lg" id="gsopInput" value="4378">
+                    <div class="form-hint">Пример: Москва ≈ 4500</div>
                 </div>
+                <div class="col-md-4">
+                    <label for="areaInput" class="form-label">Площадь стен, м²</label>
+                    <input type="number" class="form-control form-control-lg" id="areaInput" value="620">
+                </div>
+                <div class="col-md-4">
+                    <label for="armatureInput" class="form-label">Масса арматуры, кг/м²</label>
+                    <input type="number" class="form-control form-control-lg" id="armatureInput" value="1.5">
+                </div>
+            </div>
+        </section>
 
-                <button id="addLayerBtn" class="btn btn-success">
-                    ➕ Добавить слой
-                </button>
+        <!-- Конструкция стены -->
+        <section class="card-section">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2 class="section-title mb-0">Конструкция стены</h2>
+                <button id="addLayerBtn" class="btn btn-outline-secondary">Добавить слой</button>
+            </div>
+            <p class="text-muted small">Слои перечисляются от внутреннего к наружному</p>
+
+            <!-- Поиск -->
+            <div class="search-block">
+                <div class="row g-2">
+                    <div class="col-md-8">
+                        <div class="d-flex gap-2">
+                            <input type="text" id="materialSearch" class="form-control form-control-lg" placeholder="Поиск материала по названию или плотности">
+                            <button id="searchBtn" class="btn btn-outline-secondary">Найти</button>
+                            <button id="clearSearchBtn" class="btn btn-outline-secondary" style="display:none;">Сбросить</button>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <span class="text-muted small">Результаты поиска отображаются ниже</span>
+                    </div>
+                </div>
             </div>
 
+            <!-- Результаты поиска -->
+            <div id="searchResults" style="display:none;" class="search-results">
+                <h6 class="search-results-title">Результаты поиска</h6>
+                <div class="table-responsive">
+                    <table class="table table-sm table-bordered search-table">
+                        <thead>
+                            <tr>
+                                <th>Наименование</th>
+                                <th>Плотность, кг/м³</th>
+                                <th style="width:120px;">Действие</th>
+                            </tr>
+                        </thead>
+                        <tbody id="searchResultsBody"></tbody>
+                    </table>
+                </div>
+                <div id="searchMessage" class="text-muted small"></div>
+            </div>
+
+            <!-- Таблица слоёв -->
             <div class="table-responsive">
-                <table class="table table-hover align-middle">
-                    <thead class="table-dark">
+                <table class="table layers-table">
+                    <thead>
                         <tr>
-                            <th style="width: 8%">№</th>
+                            <th style="width:8%;">№</th>
                             <th>Материал</th>
-                            <th style="width: 20%">Толщина (м)</th>
-                            <th style="width: 10%">Удалить</th>
+                            <th style="width:22%;">Толщина, м</th>
+                            <th style="width:10%;"></th>
                         </tr>
                     </thead>
                     <tbody id="layersBody">
@@ -97,105 +114,73 @@
                 </table>
             </div>
 
-            <div class="text-center mt-3">
-                <button id="calculateBtn" class="btn btn-primary btn-lg px-5">
-                    🚀 Рассчитать
-                </button>
+            <div class="text-center mt-4">
+                <button id="calculateBtn" class="btn btn-primary btn-lg px-5">Рассчитать</button>
             </div>
+        </section>
 
-        </div>
-    </div>
-
-    <!-- RESULTS -->
-    <div id="resultsSection" class="card shadow-sm" style="display:none;">
-        <div class="card-body">
-
-            <h4 class="mb-3">📊 Результаты расчёта</h4>
-
-            <div class="alert alert-info">
-                Ниже показаны результаты по каждому слою и итоговые значения
-            </div>
+        <!-- Результаты -->
+        <section id="resultsSection" class="card-section" style="display:none;">
+            <h2 class="section-title">Результаты расчёта</h2>
+            <p class="text-muted small">Детализация по слоям на 1 м² стены</p>
 
             <div class="table-responsive">
-                <table class="table table-striped align-middle">
-                    <thead class="table-dark">
+                <table class="table results-table">
+                    <thead>
                         <tr>
                             <th>№</th>
                             <th>Материал</th>
-                            <th>Масса (кг/м²)</th>
-                            <th>CO₂ (кг)</th>
-                            <th>Энергия (МДж)</th>
+                            <th>Масса, кг</th>
+                            <th>CO₂, кг экв</th>
+                            <th>Энергия, МДж</th>
                         </tr>
                     </thead>
                     <tbody id="resultBody"></tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="2" class="text-end fw-semibold">Итого:</td>
+                            <td id="footerMass" class="fw-semibold">–</td>
+                            <td id="footerCo2" class="fw-semibold">–</td>
+                            <td id="footerEnergy" class="fw-semibold">–</td>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
 
-            <hr>
-
-            <div class="row g-3">
-
-                <div class="col-md-4">
-                    <div class="card border-primary">
-                        <div class="card-body">
-                            <h6 class="text-primary">⚖️ Масса</h6>
-                            <div id="footerMass" class="fs-5 fw-bold">-</div>
-                        </div>
+            <div class="row g-4 mt-3">
+                <div class="col-md-6">
+                    <div class="metric-card">
+                        <h6 class="metric-title">Теплотехнические показатели</h6>
+                        <ul class="metric-list">
+                            <li><span class="metric-label">Сопротивление теплопередаче R₀</span> <span id="resultR0" class="metric-value">–</span> м²·°С/Вт</li>
+                            <li><span class="metric-label">Потери через 1 м²</span> <span id="resultQPerM2">–</span> кВт·ч/год</li>
+                            <li><span class="metric-label">Общие потери</span> <span id="resultQTotal">–</span> кВт·ч/год</li>
+                        </ul>
                     </div>
                 </div>
-
-                <div class="col-md-4">
-                    <div class="card border-danger">
-                        <div class="card-body">
-                            <h6 class="text-danger">🌫 CO₂</h6>
-                            <div id="footerCo2" class="fs-5 fw-bold">-</div>
-                        </div>
+                <div class="col-md-6">
+                    <div class="metric-card">
+                        <h6 class="metric-title">Расход газа</h6>
+                        <ul class="metric-list">
+                            <li><span class="metric-label">На 1 м²</span> <span id="resultVPerM2">–</span> м³/год</li>
+                            <li><span class="metric-label">Общий</span> <span id="resultVTotal">–</span> м³/год</li>
+                        </ul>
                     </div>
                 </div>
-
-                <div class="col-md-4">
-                    <div class="card border-success">
-                        <div class="card-body">
-                            <h6 class="text-success">⚡ Энергия</h6>
-                            <div id="footerEnergy" class="fs-5 fw-bold">-</div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
 
-            <hr>
+            <p class="text-muted small mt-4">Версия расчёта: <span id="calcVersion">–</span></p>
+        </section>
 
-            <div class="row g-3">
+    </main>
 
-                <div class="col-md-6">
-                    <div class="p-3 border rounded bg-light">
-                        <h6>🔥 Теплотехника</h6>
-                        <p class="mb-1">R₀: <span id="resultR0" class="fw-bold"></span></p>
-                        <p class="mb-1">Потери (1 м²): <span id="resultQPerM2"></span></p>
-                        <p class="mb-0">Потери (всего): <span id="resultQTotal"></span></p>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="p-3 border rounded bg-light">
-                        <h6>⛽ Газ</h6>
-                        <p class="mb-1">1 м²: <span id="resultVPerM2"></span></p>
-                        <p class="mb-0">Всего: <span id="resultVTotal"></span></p>
-                    </div>
-                </div>
-
-            </div>
-
+    <footer class="site-footer">
+        <div class="container">
+            <p class="mb-0">Учебный проект — кафедра строительной физики</p>
         </div>
-    </div>
+    </footer>
 
-</main>
-
-<footer class="text-center py-4 text-muted">
-    <small>Учебный проект — расчёт строительных конструкций</small>
-</footer>
-
-<script src="/static/script.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/script.js"></script>
 </body>
 </html>

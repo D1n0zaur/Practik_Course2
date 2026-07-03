@@ -40,6 +40,11 @@ templates = Jinja2Templates(directory="app/templates")
 def index(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
+# === Страница материалов ===
+@app.get("/materials")
+def materials_list(request: Request, db: Session = Depends(get_db)):
+    materials = db.query(Material).order_by(Material.id).all()  # сортировка по ID
+    return templates.TemplateResponse("materials.html", {"request": request, "materials": materials})
 
 # === API эндпоинты ===
 @app.get("/api/v1/materials", response_model=List[MaterialOut])
